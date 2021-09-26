@@ -8,7 +8,7 @@ Home
 <h1>Tareas:</h1>
 <ul class="list-group">
     {% for task in tasks %}
-    <li class="list-group-item text-center">{{ task.description }}</li>
+    <a href="{% url 'detail_task' task.id %}" class="list-group-item text-center list-group-item-{% if task.done %}success{% else %}danger{% endif %}">{{ task.description }}</a>
     {% endfor %}
 </ul>
 {% endblock %}
