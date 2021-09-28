@@ -1,0 +1,15 @@
+{% extends 'base/master.html' %}
+{% block title %}
+Crear Tarea con Form
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-3 mt-3">Nueva Tarea:</h1>
+<form method="POST">{% csrf_token %}
+    <table>
+        {{ form.as_p }}
+
+    </table>
+    <button class="btn btn-primary mt-4">Guardar</button>
+</form>
+{% endblock %}

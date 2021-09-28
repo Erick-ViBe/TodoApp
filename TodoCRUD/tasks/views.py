@@ -1,5 +1,7 @@
+from django import forms
 from django.shortcuts import redirect, render, reverse
 from .models import Task
+from .forms import TaskForm, TaskModelForm
 
 # Create your views here.
 def home_view(request):
@@ -41,3 +43,16 @@ def detail_task_view(request, pk):
         'task': task
     }
     return render(request, 'tasks/detail_task.html', context)
+
+def create_form_task_view(request):
+    if request.method == 'POST':
+        form = TaskModelForm(request.POST)
+        if form.is_valid():
+            #description = form.cleaned_data['description']
+            #Task.objects.create(description=description)
+            task = form.save(commit=False)
+            task.save()
+            return redirect(reverse('home-view'))
+    else:
+        form = TaskModelForm()
+    return render(request, 'tasks/create_form_task.html', {'form': form})
