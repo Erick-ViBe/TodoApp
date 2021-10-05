@@ -1,0 +1,16 @@
+{% extends 'base/master.html' %}
+{% load  crispy_forms_tags %}
+{% block title %}
+Tarea
+{% endblock %}
+
+{% block content %}
+<h1>Tarea:</h1>
+<form method="POST">{% csrf_token %}
+    {{ form|crispy }}
+    <button class='btn btn-primary mt-3' name='saveTask'>Guardar</button>
+</form>
+<form method="POST">{% csrf_token %}
+    <button class='btn btn-danger mt-3' name='deleteTask'>Eliminar Tarea</button>
+</form>
+{% endblock %}

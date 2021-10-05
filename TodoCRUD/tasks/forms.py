@@ -30,3 +30,14 @@ class TaskModelForm(forms.ModelForm):
             raise forms.ValidationError('No pongas tarea de matematicas, no te compliques la vida bbe!!!')
 
         return description
+
+
+class TaskUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        #fields = ['description', 'done']
+        fields = '__all__'
+        labels = {
+            'description': 'Descripcion',
+            'done': 'Terminada',
+        }
