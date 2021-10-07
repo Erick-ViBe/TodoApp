@@ -9,6 +9,8 @@ Home
 <ul class="list-group">
     {% for task in tasks %}
     <a href="{% url 'detail_task' task.id %}" class="list-group-item text-center list-group-item-{% if task.done %}success{% else %}danger{% endif %}">{{ task.description }}</a>
+    {% empty %}
+    <a href="{% url 'create_task' %}" class="list-group-item text-center list-group-item-warning">Agrega una tarea</a>
     {% endfor %}
 </ul>
 {% endblock %}
