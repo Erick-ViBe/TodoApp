@@ -3,44 +3,25 @@ from django.shortcuts import redirect, render, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Task
 from .forms import TaskForm, TaskModelForm, TaskUpdateForm
+from django.views.generic import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, CreateView, UpdateView
 
-# Create your views here.
-def home_view(request):
-    if not request.user.is_authenticated:
-        return redirect(reverse('login-view'))
-    tasks = Task.objects.all()
-    context = {
-        'tasks': tasks
-    }
-    return render(request, 'tasks/home.html', context)
 
-@login_required
-def create_task_view(request):
-    if request.method == 'POST':
-        form = TaskModelForm(request.POST)
-        if form.is_valid():
-            #description = form.cleaned_data['description']
-            #Task.objects.create(description=description)
-            task = form.save(commit=False)
-            task.save()
-            return redirect(reverse('home-view'))
-    else:
-        form = TaskModelForm()
-    return render(request, 'tasks/create_form_task.html', {'form': form})  
+class HomeClassListView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = 'tasks/home.html'
+    context_object_name = 'tasks'
 
-@login_required
-def detail_form_task_view(request, pk):
-    task = get_object_or_404(Task, id=pk)
 
-    if request.method == 'POST':
-        if 'saveTask' in request.POST:
-            form = TaskUpdateForm(request.POST, instance=task)
-            if form.is_valid():
-                form.save()
-        if 'deleteTask' in request.POST:
-            task.delete()
-        return redirect(reverse('home-view'))
-    else:
-        form = TaskUpdateForm(instance=task)
-    
-    return render(request, 'tasks/detail_form_task.html', {'form': form})
+class CreateTaskView(LoginRequiredMixin, CreateView):
+    template_name = 'tasks/create_form_task.html'
+    form_class = TaskModelForm
+    success_url = '/'
+
+
+class DetailTaskView(LoginRequiredMixin, UpdateView):
+    model = Task
+    form_class = TaskUpdateForm
+    template_name = 'tasks/detail_form_task.html'
+    success_url = '/'

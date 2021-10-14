@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserForm
 
 def login_view(request):
@@ -20,3 +21,8 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect(reverse('login-view'))
+
+
+class TodoLoginView(LoginView):
+    template_name = 'users/login.html'
+    redirect_authenticated_user = True
