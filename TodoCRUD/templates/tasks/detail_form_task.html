@@ -10,7 +10,7 @@ Tarea
     {{ form|crispy }}
     <button class='btn btn-primary mt-3' name='saveTask'>Guardar</button>
 </form>
-<form method="POST">{% csrf_token %}
+<form method="POST" action="{% url 'delete_task' task.id %}">{% csrf_token %}
     <button class='btn btn-danger mt-3' name='deleteTask'>Eliminar Tarea</button>
 </form>
 {% endblock %}
