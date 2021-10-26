@@ -5,6 +5,8 @@ from .forms import TaskForm, TaskModelForm, TaskUpdateForm
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.http import Http404
+from .mixins import IsMyTask
 
 
 class HomeClassListView(LoginRequiredMixin, ListView):
@@ -31,7 +33,7 @@ class CreateTaskView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class DetailTaskView(LoginRequiredMixin, UpdateView):
+class DetailTaskView(LoginRequiredMixin, IsMyTask, UpdateView):
     model = Task
     form_class = TaskUpdateForm
     template_name = 'tasks/detail_form_task.html'

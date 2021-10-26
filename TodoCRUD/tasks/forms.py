@@ -35,7 +35,7 @@ class TaskModelForm(forms.ModelForm):
 class TaskUpdateForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['description', 'done']
         labels = {
             'description': 'Descripcion',
             'done': 'Terminada',
